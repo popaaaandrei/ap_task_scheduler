@@ -14,12 +14,16 @@ defmodule APTaskScheduler.Application do
       # Start a worker by calling: APTaskScheduler.Worker.start_link(arg)
       # {APTaskScheduler.Worker, arg},
       # Start to serve requests, typically the last entry
-      APTaskSchedulerWeb.Endpoint
+      APTaskSchedulerWeb.Endpoint,
+
+      APTaskScheduler.Repo,
+      {Oban, Application.fetch_env!(:ap_task_scheduler, Oban)}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: APTaskScheduler.Supervisor]
+    # {:ok, _} = Supervisor.start_link(children, opts)
     Supervisor.start_link(children, opts)
   end
 
@@ -30,4 +34,5 @@ defmodule APTaskScheduler.Application do
     APTaskSchedulerWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
 end

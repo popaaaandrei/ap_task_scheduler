@@ -26,6 +26,24 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Ecto config
+config :ap_task_scheduler, APTaskScheduler.Repo,
+       database: Path.expand("../data/dev.db", Path.dirname(__ENV__.file)),
+       # database: :memory,
+       pool: Ecto.Adapters.SQL.Sandbox,
+       pool_size: 10,
+       timeout: 60000,
+       stacktrace: true
+
+config :ap_task_scheduler,
+       ecto_repos: [APTaskScheduler.Repo]
+
+# Oban configuration
+config :ap_task_scheduler, Oban,
+   engine: Oban.Engines.Lite,
+   queues: [default: 10],
+   repo: APTaskScheduler.Repo
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

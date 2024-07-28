@@ -10,5 +10,8 @@ config :ap_task_scheduler, APTaskSchedulerWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warning
 
+# prevent Oban from running jobs and plugins during test runs
+config :ap_task_scheduler, Oban, testing: :inline
+
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime

@@ -44,6 +44,15 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/plug_crypto" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/castore" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/plug" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/cc_precompiler" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/exqlite" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/db_connection" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ecto_sql" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ecto" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/decimal" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ecto_sqlite3" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/oban" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -88,5 +97,21 @@
     <orderEntry type="library" name="stream_data" level="project" />
     <orderEntry type="library" name="mime" level="project" />
     <orderEntry type="library" name="hpack" level="project" />
+    <orderEntry type="library" name="oban" level="project" />
+    <orderEntry type="library" name="ecto_sqlite3" level="project" />
+    <orderEntry type="library" name="postgrex" level="project" />
+    <orderEntry type="library" name="tz" level="project" />
+    <orderEntry type="library" name="decimal" level="project" />
+    <orderEntry type="library" name="db_connection" level="project" />
+    <orderEntry type="library" name="myxql" level="project" />
+    <orderEntry type="library" name="tds" level="project" />
+    <orderEntry type="library" name="exqlite" level="project" />
+    <orderEntry type="library" name="temp" level="project" />
+    <orderEntry type="library" name="benchee_markdown" level="project" />
+    <orderEntry type="library" name="ex_sqlean" level="project" />
+    <orderEntry type="library" name="elixir_make" level="project" />
+    <orderEntry type="library" name="cc_precompiler" level="project" />
+    <orderEntry type="library" name="table" level="project" />
+    <orderEntry type="library" name="certifi" level="project" />
   </component>
 </module>
