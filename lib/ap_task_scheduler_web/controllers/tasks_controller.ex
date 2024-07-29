@@ -36,7 +36,7 @@ defmodule APTaskSchedulerWeb.TasksController do
       true -> conn
               |> put_status(:not_found)
               |> json(%{error: true, reason: "job_id #{job_id} not found"})
-      false -> json(conn, %{tasks: tasks, requestId: job_id})
+      false -> json(conn, %{tasks: tasks, job_id: job_id})
     end
   end
 
@@ -64,7 +64,7 @@ defmodule APTaskSchedulerWeb.TasksController do
 
         script = "#!/usr/bin/env bash\n" <> lines
         Logger.debug("payload: #{inspect(script)}")
-        json(conn, %{script: script, requestId: job_id})
+        json(conn, %{script: script, job_id: job_id})
     end
   end
 
@@ -92,9 +92,13 @@ defmodule APTaskSchedulerWeb.TasksController do
       end)
 
       Logger.debug("ordered: #{inspect(ordered_tasks_with_index)}")
-      json(conn, %{tasks: ordered_tasks_with_index, requestId: requestId})
+      json(conn, %{tasks: ordered_tasks_with_index, job_id: requestId})
+
     else
-      {:error, reason} -> json(conn, %{error: reason})
+      {:error, reason} ->
+        conn
+        |> put_status(:not_acceptable)
+        |> json(%{error: true, reason: reason})
     end
   end
 
