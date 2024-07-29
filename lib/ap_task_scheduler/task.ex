@@ -47,6 +47,23 @@ defmodule APTaskScheduler.Task do
     end
   end
 
+
+  # make sure we append all the necessary info
+  def decorate(tasks, job_id) when is_list(tasks) and is_bitstring(job_id) do
+    tasks
+       |> Enum.with_index()
+       |> Enum.map(fn {task, index} ->
+          %Task{
+            id: task.id,
+            name: task.name,
+            command: task.command,
+            requires: task.requires,
+            order: index,
+            job_id: job_id
+          }
+       end)
+  end
+
   # ========================================================
   # helpers
   # ========================================================

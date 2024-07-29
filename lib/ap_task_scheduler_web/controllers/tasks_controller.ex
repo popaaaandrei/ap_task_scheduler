@@ -18,7 +18,7 @@ defmodule APTaskSchedulerWeb.TasksController do
           "args" => job.args,
           "completed_at" => job.completed_at
       } end)
-      |> Enum.group_by(fn job -> job["args"]["requestId"] end)
+      |> Enum.group_by(fn job -> job["args"]["job_id"] end)
 
     json(conn, payload)
   end
@@ -47,28 +47,17 @@ defmodule APTaskSchedulerWeb.TasksController do
          {:ok, ordered} <- Scheduler.order(tasks) do
 
       # make sure we append all the necessary info
-      ordered_maps = ordered
-        |> Enum.with_index()
-        |> Enum.map(fn {task, index} ->
-            %Task{
-              id: task.id,
-              name: task.name,
-              command: task.command,
-              requires: task.requires,
-              order: index,
-              job_id: requestId
-            }
-          end)
+      ordered_tasks_with_index = Task.decorate(ordered, requestId)
 
       # add the Job in Oban
-      ordered_maps |> Enum.each(fn task ->
+      ordered_tasks_with_index |> Enum.each(fn task ->
         task
           |> ProcessJob.new()
           |> Oban.insert()
       end)
 
-      Logger.debug("ordered: #{inspect(ordered_maps)}")
-      json(conn, %{tasks: ordered_maps, requestId: requestId})
+      Logger.debug("ordered: #{inspect(ordered_tasks_with_index)}")
+      json(conn, %{tasks: ordered_tasks_with_index, requestId: requestId})
     else
       {:error, reason} -> json(conn, %{error: reason})
     end
@@ -79,9 +68,7 @@ defmodule APTaskSchedulerWeb.TasksController do
   # helpers
   # ========================================================
 
-  @doc_private """
-  Extract the "x-request-id" response header
-  """
+  # Extract the "x-request-id" response header
   defp requestId(conn), do:
     get_resp_header(conn, "x-request-id") |> List.first
 

@@ -22,6 +22,6 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ### API
 
-`POST http://localhost:4000/api/tasks`
-
-`GET http://localhost:4000/api/tasks`
+- `POST http://localhost:4000/api/tasks`
+- `GET http://localhost:4000/api/tasks`
+- `GET http://localhost:4000/api/tasks/{job_id}`

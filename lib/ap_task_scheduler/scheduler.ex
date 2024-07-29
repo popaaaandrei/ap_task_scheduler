@@ -33,9 +33,7 @@ defmodule APTaskScheduler.Scheduler do
   # ========================================================
 
 
-  @doc_private """
-  Create a directed Graph from all tasks
-  """
+  # Create a directed Graph from all tasks
   defp graph(tasks) when is_list(tasks) do
     # 1) create the dependency list
     dependencies = tasks
@@ -55,6 +53,7 @@ defmodule APTaskScheduler.Scheduler do
       Graph.add_edge(graph, from, to)
     end)
 
+    # 3) check for cycles
     case Graph.is_cyclic?(graph) do
       true -> {:error, :dependencies_have_cycles}
       false -> {:ok, graph}
@@ -62,13 +61,12 @@ defmodule APTaskScheduler.Scheduler do
   end
 
 
-  @doc_private """
-  Gets a list of Tasks and checks whether all references are defined properly
-  """
+  # Gets a list of Tasks and checks whether all references are defined properly
   @spec check_consistency(list()) :: {:ok, list()} | {:error, atom()}
   defp check_consistency(tasks) when is_list(tasks) do
     task_names = tasks |> map(fn t -> t.name end)
 
+    # all requirements need to exist within the task_names
     consistent = tasks |> all?(fn task ->
       task.requires |> all?(fn requirement -> member?(task_names, requirement) end)
     end)
@@ -80,9 +78,7 @@ defmodule APTaskScheduler.Scheduler do
   end
 
 
-  @doc_private """
-  Arranges a list of Tasks in the order specified by order param
-  """
+  # Arranges a list of Tasks in the order specified by order param
   @spec arrange(list(), list()) :: {:ok, list()} | {:error, atom()}
   defp arrange(tasks, order) when is_list(tasks) and is_list(order) do
     sorted = order
@@ -95,7 +91,8 @@ defmodule APTaskScheduler.Scheduler do
   end
 
 
-  defp arrange(tasks, false) when is_list(tasks), do: {:error, :topological_ordering_not_possible}
+  defp arrange(tasks, false) when is_list(tasks), do:
+    {:error, :topological_ordering_not_possible}
 
 
 end
