@@ -29,9 +29,15 @@ defmodule APTaskSchedulerWeb.TasksController do
   """
   def show(conn, %{"job_id" => job_id}) do
     # get Tasks by job_id
-    payload = APTaskScheduler.Repo.query(job_id)
+    tasks = APTaskScheduler.Repo.query(job_id)
     # Logger.debug("payload: #{inspect(payload)}")
-    json(conn, %{tasks: payload, requestId: job_id})
+
+    case Enum.empty?(tasks) do
+      true -> conn
+              |> put_status(:not_found)
+              |> json(%{error: true, reason: "job_id #{job_id} not found"})
+      false -> json(conn, %{tasks: tasks, requestId: job_id})
+    end
   end
 
 
@@ -41,16 +47,25 @@ defmodule APTaskSchedulerWeb.TasksController do
   """
   def render_script(conn, %{"job_id" => job_id}) do
     # get Tasks by job_id
-    lines = APTaskScheduler.Repo.query(job_id)
-      # make sure they are in the proper order
-      |> Enum.sort_by(fn task -> task["order"] end)
-      # extract the command
-      |> Enum.map(fn task -> task["command"] end)
-      |> Enum.join("\n")
+    tasks = APTaskScheduler.Repo.query(job_id)
 
-    script = "#!/usr/bin/env bash\n" <> lines
-    Logger.debug("payload: #{inspect(script)}")
-    json(conn, %{script: script, requestId: job_id})
+    case Enum.empty?(tasks) do
+      true -> conn
+              |> put_status(:not_found)
+              |> json(%{error: true, reason: "job_id #{job_id} not found"})
+
+      false ->
+        lines = tasks
+          # make sure they are in the proper order
+          |> Enum.sort_by(fn task -> task["order"] end)
+          # extract the command
+          |> Enum.map(fn task -> task["command"] end)
+          |> Enum.join("\n")
+
+        script = "#!/usr/bin/env bash\n" <> lines
+        Logger.debug("payload: #{inspect(script)}")
+        json(conn, %{script: script, requestId: job_id})
+    end
   end
 
 

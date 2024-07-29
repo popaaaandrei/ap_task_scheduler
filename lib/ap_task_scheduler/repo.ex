@@ -18,14 +18,12 @@ defmodule APTaskScheduler.Repo do
                           |> Oban.Repo.query(query) do
       result.rows
       |> List.flatten()
-      |> Enum.map(
-           fn entry ->
-             case Jason.decode(entry) do
-               {:ok, json} -> json
-               error -> error
-             end
+      |> Enum.map(fn entry ->
+           case Jason.decode(entry) do
+             {:ok, json} -> json
+             error -> error
            end
-         )
+         end)
     else
       {:error, reason} -> {:error, reason}
     end
