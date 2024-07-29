@@ -4,19 +4,16 @@
 ### Setup
 
 ```shell
-# Clean SQLite database
-rm -rf ./data/*
-# start Phoenix then abort when having errors
-# this is needed for Phoenix to create the empty SQLite 
+# install and setup dependencies
+mix setup
+# Execute tests
+mix test
+# Start Phoenix
 mix phx.server
-# Create tables
-mix ecto.migrate
 ```
 
-To start your Phoenix server:
+> After `./data` is deleted, the SQLite db files will only be available after a fresh Phoenix start, and afterwards the tables can be created with `mix ecto.migrate`
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 

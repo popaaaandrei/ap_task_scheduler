@@ -10,6 +10,7 @@ defmodule APTaskSchedulerWeb.Router do
 
     get "/tasks", TasksController, :index
     get "/tasks/:job_id", TasksController, :show
+    get "/tasks/:job_id/script", TasksController, :render_script
     post "/tasks", TasksController, :create
 
   end

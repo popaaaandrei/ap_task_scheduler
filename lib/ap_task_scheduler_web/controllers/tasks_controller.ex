@@ -35,6 +35,26 @@ defmodule APTaskSchedulerWeb.TasksController do
   end
 
 
+
+  @doc """
+  Get Tasks by job_id, and render into a Bash script
+  """
+  def render_script(conn, %{"job_id" => job_id}) do
+    # get Tasks by job_id
+    lines = APTaskScheduler.Repo.query(job_id)
+      # make sure they are in the proper order
+      |> Enum.sort_by(fn task -> task["order"] end)
+      # extract the command
+      |> Enum.map(fn task -> task["command"] end)
+      |> Enum.join("\n")
+
+    script = "#!/usr/bin/env bash\n" <> lines
+    Logger.debug("payload: #{inspect(script)}")
+    json(conn, %{script: script, requestId: job_id})
+  end
+
+
+
   @doc """
   Create a new Job consisting of a Task list
   """
