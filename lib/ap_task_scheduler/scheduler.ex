@@ -33,7 +33,7 @@ defmodule APTaskScheduler.Scheduler do
   # ========================================================
 
 
-  @doc """
+  @doc_private """
   Create a directed Graph from all tasks
   """
   defp graph(tasks) when is_list(tasks) do
@@ -62,7 +62,7 @@ defmodule APTaskScheduler.Scheduler do
   end
 
 
-  @doc """
+  @doc_private """
   Gets a list of Tasks and checks whether all references are defined properly
   """
   @spec check_consistency(list()) :: {:ok, list()} | {:error, atom()}
@@ -80,7 +80,7 @@ defmodule APTaskScheduler.Scheduler do
   end
 
 
-  @doc """
+  @doc_private """
   Arranges a list of Tasks in the order specified by order param
   """
   @spec arrange(list(), list()) :: {:ok, list()} | {:error, atom()}

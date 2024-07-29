@@ -30,10 +30,7 @@ config :logger, :console,
 config :ap_task_scheduler, APTaskScheduler.Repo,
        database: Path.expand("../data/dev.db", Path.dirname(__ENV__.file)),
        # database: :memory,
-       pool: Ecto.Adapters.SQL.Sandbox,
-       pool_size: 10,
-       timeout: 60000,
-       stacktrace: true
+       pool: Ecto.Adapters.SQL.Sandbox
 
 config :ap_task_scheduler,
        ecto_repos: [APTaskScheduler.Repo]

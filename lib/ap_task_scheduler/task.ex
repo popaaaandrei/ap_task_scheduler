@@ -11,6 +11,8 @@ defmodule APTaskScheduler.Task do
   @derive Jason.Encoder
   defstruct [
     :id,
+    :job_id,
+    :order,
     :name,
     :command,
     requires: []
@@ -18,11 +20,13 @@ defmodule APTaskScheduler.Task do
 
   @typedoc "Task"
   @type t() :: %__MODULE__{
-          id: String.t() | nil,
-          name: String.t(),
-          command: String.t(),
-          requires: list() | []
-        }
+                 id: String.t() | nil,
+                 job_id: String.t() | nil,
+                 order: integer() | nil,
+                 name: String.t(),
+                 command: String.t(),
+                 requires: list() | []
+               }
 
   # ========================================================
   # api
@@ -68,4 +72,5 @@ defmodule APTaskScheduler.Task do
   defp map_to_task(_invalid) do
     {:error, "Invalid task format"}
   end
+
 end

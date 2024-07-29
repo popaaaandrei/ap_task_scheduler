@@ -23,7 +23,6 @@ defmodule APTaskScheduler.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: APTaskScheduler.Supervisor]
-    # {:ok, _} = Supervisor.start_link(children, opts)
     Supervisor.start_link(children, opts)
   end
 

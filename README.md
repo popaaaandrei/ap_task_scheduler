@@ -1,5 +1,18 @@
 # APTaskScheduler
 
+
+### Setup
+
+```shell
+# Clean SQLite database
+rm -rf ./data/*
+# start Phoenix then abort when having errors
+# this is needed for Phoenix to create the empty SQLite 
+mix phx.server
+# Create tables
+mix ecto.migrate
+```
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
@@ -7,12 +20,8 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### API
 
-## Learn more
+`POST http://localhost:4000/api/tasks`
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+`GET http://localhost:4000/api/tasks`
